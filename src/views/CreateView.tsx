@@ -79,13 +79,13 @@ export default function CreateView({ onGenerate }: Props) {
               생성 중…
             </>
           ) : (
-            '✨ 스테레오그램 생성'
+            '스테레오그램 생성'
           )}
         </button>
       </form>
 
       <div className="tip-card">
-        <span className="tip-icon">💡</span>
+        <span className="tip-dot" aria-hidden="true" />
         <span>짧은 단어일수록 매직아이로 인식하기 쉬워요. 2~6자를 권장합니다.</span>
       </div>
     </div>

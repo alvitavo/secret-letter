@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { Route } from './types'
+import logoUrl from './assets/logo.svg'
 import CreateView from './views/CreateView'
 import ShareView from './views/ShareView'
 import QuizView from './views/QuizView'
@@ -35,7 +36,8 @@ export default function App() {
     <div className="app">
       <header className="header">
         <button className="logo" onClick={goHome} aria-label="홈으로">
-          🔮 Secret Letter
+          <img src={logoUrl} alt="Secret Letter" className="logo-img" />
+          <span className="logo-text">Secret Letter</span>
         </button>
       </header>
 

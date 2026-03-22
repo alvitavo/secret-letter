@@ -35,7 +35,7 @@ export function textToDepthMap(
   }
 
   // 텍스트: 밝은 회색 (깊이 ~0.7, 너무 극단적이지 않게)
-  ctx.fillStyle = '#b2b2b2'
+  ctx.fillStyle = '#595959'
   ctx.fillText(text, width / 2, height / 2)
 
   const imageData = ctx.getImageData(0, 0, width, height)
@@ -78,7 +78,7 @@ export function generateStereogram(
   height: number,
   options: StereogramOptions = {},
 ): HTMLCanvasElement {
-  const E = Math.round(width * (options.eyeSepRatio ?? 1 / 6))
+  const E = Math.round(width * (options.eyeSepRatio ?? 1 / 3))
   const mu = options.mu ?? 0.33
 
   // 깊이 z에 따른 좌우 픽셀 간격
@@ -124,10 +124,11 @@ export function generateStereogram(
     for (let x = 0; x < width; x++) {
       const s = same[x]
       if (s === x) {
-        // 루트 픽셀: 랜덤 색상
-        rr[x] = (Math.random() * 256) | 0
-        gg[x] = (Math.random() * 256) | 0
-        bb[x] = (Math.random() * 256) | 0
+        // 루트 픽셀: 랜덤 그레이스케일
+        const gray = (Math.random() * 256) | 0
+        rr[x] = gray
+        gg[x] = gray
+        bb[x] = gray
       } else {
         // 제약 픽셀: same[x]의 색상 복사 (s < x, 이미 처리됨)
         rr[x] = rr[s]
@@ -147,5 +148,18 @@ export function generateStereogram(
   }
 
   ctx.putImageData(imgData, 0, 0)
+
+  // 초점 가이드: 눈 간격(E)만큼 떨어진 흰색 점 두 개
+  const dotY = 16
+  const dotR = 4
+  const cx = width / 2
+  ctx.fillStyle = '#ffffff'
+  ctx.beginPath()
+  ctx.arc(cx - E / 4, dotY, dotR, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.arc(cx + E / 4, dotY, dotR, 0, Math.PI * 2)
+  ctx.fill()
+
   return canvas
 }
